@@ -1,0 +1,599 @@
+/**
+ *------
+ * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
+ * Thief's Market implementation : © Sayid Hafiz <sayidhafiz@gmail.com>
+ *
+ * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
+ * See http://en.boardgamearena.com/#!doc/Studio for more information.
+ * -----
+ *
+ * thiefsmarket.css
+ *
+ * Thief's Market stylesheet
+ *
+ */
+
+/*
+    This is the CSS stylesheet of your game User Interface.
+    
+    Styles defined on this file will be applied to the HTML elements you define in your
+    HTML template (thiefsmarket_thiefsmarket.tpl), and to HTML elements you create dynamically
+    (in thiefsmarket.js).
+    
+    Usually, you are using CSS to:
+    
+    1°) define the overall layout of your game
+        (ex: place the board on the top left, place player's hand beside, place the deck on the right, ...).
+
+    2°) create your CSS-sprites:
+        All images of your games should be gathered into a small number of image files. Then, using
+        background-image and background-position CSS properties, you create HTML blocks that can 
+        display these images correctly (see example below).
+    
+    3°) ... anything else:
+        It is really easy to add and remove CSS classes dynamically from your Javascript with
+        dojo.addClass and dojo.removeClass. It is also easy to check if an element has a class
+        (dojo.hasClass) or to get all elements with a specific class (dojo.query). This is why,
+        very often, using CSS classes for the logic of your user interface allow you to do complex
+        thing easily.
+        
+        
+     Note: on the production platform, this file will be compressed and comments will be removed.
+           Consequently, don't hesitate to put as many comments as necessary.
+*/
+
+
+/* Note: you must not use any @import directive */
+
+
+/********* You can start writing your CSS below this line: **********/
+
+
+/*
+    Example of CSS sprites (a black token and a white token, 20x20px each, embedded in the same "tokens.png" 40x20px image):
+
+    .white_token {
+        background-image: url('img/tokens.png');
+        background-position: 0px 0px;
+    }
+    .black_token {
+        background-image: url('img/tokens.png');
+        background-position: -20px 0px;
+    }
+    .token {
+        width: 20px;
+        height: 20px;
+        background-repeat: none;
+    }
+*/
+
+#thiefmarket_game {}
+
+#thiefmarket_game #market {
+    overflow: auto;
+    margin: 0 auto;
+}
+
+/* 
+ *  MARKET AREA
+ */
+
+#thiefmarket_game #market .market_row {
+    display: table;
+    margin: 10px auto;
+    overflow: auto;
+}
+
+#thiefmarket_game #market #deck_a {}
+
+#thiefmarket_game #market #deck_b {}
+
+#thiefmarket_game #market #deck_c {}
+
+#thiefmarket_game #market .drawpile {
+    position: relative;
+    float: left;
+    width: 110px;
+    height: 154px;
+    margin-right: 20px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+#thiefmarket_game #market .drawpile h3 {
+    position: absolute;
+    top: 74%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    color: white;
+    text-align: center;
+    font-size: 18px;
+    line-height: 18px;
+
+    background: rgba(0, 0, 0, 0.65);
+    padding: 4px 10px;
+    border-radius: 8px;
+}
+
+#thiefmarket_game #market .dealtcards {
+    position: relative;
+    float: left;
+    min-width: 600px;
+}
+
+.desktop_version #thiefmarket_game #market .market_row .dealtcards {}
+
+.mobile_version #thiefmarket_game #market .market_row .dealtcards {}
+
+#thiefmarket_game #market .market_row .dealtcards .card_wrapper {
+    position: relative;
+    float: left;
+    width: 110px;
+    height: 154px;
+    margin-right: 10px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+#thiefmarket_game #market .market_row.empty_deck.empty_row {
+    margin: 0 auto;
+    display: none;
+}
+
+#thiefmarket_game #market .market_row.empty_deck .drawpile .back,
+#thiefmarket_game #market .market_row.empty_deck .drawpile h3 {
+    display: none;
+}
+
+#thiefmarket_game #market .market_row.empty_deck.empty_row .drawpile {
+    width: 0;
+    height: 0;
+    margin: 0;
+}
+
+#thiefmarket_game #market .market_row .dealtcards .card_wrapper:last-child {
+    margin-right: 0;
+}
+
+/* 
+ *  LOOT TABLE
+ */
+
+#thiefmarket_game #loot_table {
+    /* by default this is not visible to player */
+    display: none;
+
+    border-radius: 6px;
+    overflow: auto;
+}
+
+#thiefmarket_game.phase_1 #loot_table {
+    /* make these areas visible to players only in phase 1 */
+    display: block;
+    min-width: 365px;
+}
+
+#thiefmarket_game #loot_table .loot_wrapper {
+    position: relative;
+    min-height: 45px;
+    width: 100%;
+}
+
+#thiefmarket_game #loot_table .player_loot.is_player {
+    display: block;
+}
+
+#thiefmarket_game #loot_table #loot_pool {
+    margin: 0 auto 12px;
+}
+
+#thiefmarket_game #loot_table #loot_pool .loot_title {
+    text-align: center;
+}
+
+#thiefmarket_game #loot_table #loot_pool .loot_title h3 {}
+
+#thiefmarket_game #loot_table #loot_pool #available_loots {
+    position: relative;
+    min-height: 40px;
+    padding: 10px 10px 5px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+}
+
+#thiefmarket_game #loot_table #loot_pool #available_loots .loot {
+    border-radius: 6px;
+}
+
+#thiefmarket_game #loot_table .player_loot {
+    float: left;
+    width: 50%;
+    margin: 12px auto 0;
+}
+
+#thiefmarket_game #loot_table .player_loot.is_player {
+    width: 100%;
+}
+
+#thiefmarket_game #loot_table .player_loot .loot_title {
+    text-align: center;
+}
+
+#thiefmarket_game #loot_table .player_loot .loot_box {
+    position: relative;
+    min-height: 40px;
+    padding: 10px 10px 5px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+  
+}
+
+#thiefmarket_game #loot_table .player_loot:nth-child(odd) .loot_box {
+    margin-right: 5px;
+}
+
+#thiefmarket_game #loot_table .player_loot:nth-child(even) .loot_box {
+    margin-left: 5px;
+}
+
+#thiefmarket_game #loot_table .player_loot.is_player .loot_box {
+    margin: 0;
+}
+
+#thiefmarket_game #loot_table .player_loot .loot_box .loot {
+    border-radius: 6px;
+}
+
+/* 
+ *  PLAYER TABLE / HAND
+ */
+
+#thiefmarket_game #players_table {}
+
+#thiefmarket_game #players_table .player_hand {
+    position: relative;
+    overflow: auto;
+    clear: both;
+}
+
+#thiefmarket_game #players_table .player_info_wrapper {
+    width: 22%;
+    display: inline-block;
+    margin: 5px 0 10px;
+}
+
+#thiefmarket_game #players_table .player_info_wrapper .player_summary {}
+
+#thiefmarket_game #players_table .player_info_wrapper .player_summary .tracker {
+    position: relative;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    padding-left: 24px;
+    text-align: center;
+    overflow: auto;
+}
+
+#thiefmarket_game #players_table .player_loot_box {
+    position: relative;
+    display: block;
+    float: right;
+    width: 75%;
+    min-height: 45px;
+    padding: 10px 10px 5px;
+    margin: 0 0 10px 0;
+    background: rgba(0, 0, 0, 0.2);
+    overflow: auto;
+    border-radius: 6px;
+}
+
+#thiefmarket_game #players_table .player_loot_box .loot {
+    border-radius: 6px;
+}
+
+#thiefmarket_game #players_table .player_cards {
+    position: relative;
+    float: left;
+    display: block;
+    width: 100%;
+    min-height: 159px;
+    overflow: auto;
+}
+
+#thiefmarket_game #players_table .player_cards .card_wrapper {
+    position: relative;
+    float: left;
+    width: 110px;
+    height: 154px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+}
+
+/* 
+ *  UTILTIES CLASSES
+ */
+
+#thiefmarket_game .clear {
+    clear: both;
+}
+
+/*
+ *  TOOLTIP
+ */
+
+.tooltip-image {
+    display: inline-block;
+}
+
+.tooltip-message {
+    display: block;
+    vertical-align: top;
+    width: 240px;
+}
+
+.tooltip-title {
+    font-weight: bold;
+    font-size: 110%;
+}
+
+/* 
+ * 
+ * SPRITES CSS
+ * 
+ * Below contains sprite related CSS
+ *  1. Cards
+ *  2. Dice
+ *  3. Other resources like first player marker
+ *
+ */
+
+/* Card Sprite */
+
+#thiefmarket_game .card_sprite {
+    width: 110px;
+    height: 154px;
+    border-radius: 6px;
+
+    filter: drop-shadow(0px 0px 1px #666);
+}
+
+#thiefmarket_game .card_sprite.back {
+    background-image: url('img/tm_card_back.jpg');
+    background-repeat: no-repeat;
+    background-size: 330px 154px;
+}
+
+#thiefmarket_game .card_sprite .card_name_wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 15px;
+    margin-top: 8%;
+}
+
+#thiefmarket_game .card_sprite .card_name_wrapper.single_symbol {
+    width: 65%;
+    margin-left: 25%;
+}
+
+#thiefmarket_game .card_sprite .card_name_wrapper.double_symbol {
+    width: 46%;
+    margin-left: 46%;
+}
+
+#thiefmarket_game .card_sprite .card_name_wrapper .card_name {
+    text-align: center;
+    font-size: 55%;
+    font-weight: bold;
+    line-height: 0.9em;
+}
+
+/* Card Back */
+
+#thiefmarket_game #market #deck_a #deck_a_back {
+    background-position: 0px 0px;
+}
+
+#thiefmarket_game #market #deck_b #deck_b_back {
+    background-position: -110px 0px;
+}
+
+#thiefmarket_game #market #deck_c #deck_c_back {
+    background-position: -220px 0px;
+}
+
+/* Loot Sprite */
+
+#thiefmarket_game .loot_sprite {
+    width: 45px;
+    height: 45px;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    background-image: url('img/tm_loot.png');
+    background-size: 405px 45px;
+    background-repeat: no-repeat;
+    border-radius: 6px;
+}
+
+#thiefmarket_game .token_infamy {
+    background-position: -270px 0px;
+    border-radius: 50%;
+}
+
+#thiefmarket_game .token_gold {
+    background-position: -315px 0px;
+    border-radius: 50%;
+}
+
+#thiefmarket_game .first_player_loot {
+    background-position: -360px 0px;
+}
+
+#thiefmarket_game .icon_infamy {
+    width: 24px;
+    height: 24px;
+
+    border-radius: 50%;
+    background-position: -144px 0px;
+    background-size: 216px 24px;
+}
+
+#thiefmarket_game .icon_gold {
+    width: 24px;
+    height: 24px;
+
+    border-radius: 50%;
+
+    background-position: -168px 0px;
+    background-size: 216px 24px;
+}
+
+/* Resources/Icons Sprite */
+
+#thiefmarket_game .icon_sprite {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 24px;
+    height: 24px;
+
+    border-radius: 4px;
+
+    background-image: url('img/tm_icons.png');
+    background-size: 192px 48px;
+    background-repeat: no-repeat;
+}
+
+#thiefmarket_game .icon_buy_count {
+    background-position: -168px -24px;
+}
+
+#thiefmarket_game .icon_thief {
+    background-position: 0px -24px;
+}
+
+#thiefmarket_game .icon_wishlist {
+    background-position: -24px -24px;
+}
+
+#thiefmarket_game .icon_wand {
+    background-position: -48px -24px;
+}
+
+#thiefmarket_game .icon_building {
+    background-position: -72px -24px;
+}
+
+#thiefmarket_game .icon_compass {
+    background-position: -96px -24px;
+}
+
+#thiefmarket_game .icon_tools {
+    background-position: -120px -24px;
+}
+
+.symbol {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+
+    background-image: url('img/tm_icons.png');
+    background-size: 128px 32px;
+    background-repeat: no-repeat;
+
+    vertical-align: middle;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.symbol.symbol_vp {
+    background-position: 0px 0px;
+}
+
+.symbol.symbol_thief {
+    background-position: 0px -16px;
+}
+
+.symbol.symbol_wishlist {
+    background-position: -16px -16px;
+}
+
+.symbol.symbol_wand {
+    background-position: -32px -16px;
+}
+
+.symbol.symbol_building {
+    background-position: -48px -16px;
+}
+
+.symbol.symbol_compass {
+    background-position: -64px -16px;
+}
+
+.symbol.symbol_tools {
+    background-position: -80px -16px;
+}
+
+.loot_icon {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+
+    background-image: url('img/tm_loot.png');
+    background-size: 144px 16px;
+    background-repeat: no-repeat;
+
+    vertical-align: middle;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.loot_icon.loot_icon_green_die {
+    background-position: 0px 0px;
+}
+
+.loot_icon.loot_icon_white_die {
+    background-position: -16px 0px;
+}
+
+.loot_icon.loot_icon_blue_die {
+    background-position: -32px 0px;
+}
+
+.loot_icon.loot_icon_red_die {
+    background-position: -48px 0px;
+}
+
+.loot_icon.loot_icon_gold_die {
+    background-position: -64px 0px;
+}
+
+.loot_icon.loot_icon_infamy_die {
+    background-position: -80px 0px;
+}
+
+.loot_icon.loot_icon_infamy_token {
+    background-position: -96px 0px;
+    border-radius: 50%;
+}
+
+.loot_icon.loot_icon_gold_token {
+    background-position: -112px 0px;
+    border-radius: 50%;
+}
+
+.loot_icon.loot_icon_first_player {
+    background-position: -128px 0px;
+}
+
+.invisible {
+	display:none;
+}
