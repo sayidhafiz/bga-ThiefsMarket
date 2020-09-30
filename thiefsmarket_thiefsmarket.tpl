@@ -28,68 +28,43 @@
 <div id="thiefmarket_game">
 
     <div id="loot_table" class="whiteblock">
-<div id=lootWrapper style="postion:absolute;">
-        <div id="loot_pool">
-            <div class="loot_title">
-                <h3>{LOOT_POOL}</h3>
-            </div>
-            <div id="available_loots">
-                <div id="loot_box_0" class="loot_wrapper">
+        <div id=lootWrapper style="postion:absolute;">
+            <div id="loot_pool">
+                <div class="loot_title">
+                    <h3>{LOOT_POOL}</h3>
+                </div>
+                <div id="available_loots">
+                    <div id="loot_box_0" class="loot_wrapper">
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- BEGIN player_loot -->
-        <div id="player_loot_{PLAYER_ID}" class="{PLAYER_CLASS}" style="{CLEAR}">
-            <div class="loot_title" style="color:#{PLAYER_COLOR}">
-                <h3>{PLAYER_NAME} {LOOT} <input class="takebutton invisible" id="takebutton{PLAYER_ID}" type=button value="Take"></h3>
-            </div>
-            <div class="loot_box">
-                <div id="loot_box_{PLAYER_ID}" class="loot_wrapper">
-				
+            <!-- BEGIN player_loot -->
+            <div id="player_loot_{PLAYER_ID}" class="{PLAYER_CLASS}" style="{CLEAR}">
+                <div class="loot_title" style="color:#{PLAYER_COLOR}">
+                    <h3>{PLAYER_NAME} {LOOT} <input class="takebutton invisible" id="takebutton{PLAYER_ID}" type=button
+                            value="Take"></h3>
+                </div>
+                <div class="loot_box">
+                    <div id="loot_box_{PLAYER_ID}" class="loot_wrapper">
+
+                    </div>
                 </div>
             </div>
+            <!-- END player_loot -->
         </div>
-        <!-- END player_loot -->
     </div>
-</div>
     <div id="market">
 
         <div id="deck_a" class="market_row">
             <div id="drawpile_a" class="drawpile">
                 <div id="deck_a_back" class="back card_sprite"></div>
+                <!-- REMAINING CARDS IN DECK A: -->
                 <!-- <h3>13</h3> -->
             </div>
             <div id="market_cards_a" class="dealtcards">
+                <!-- SAMPLE OF CARDS HTML -->
                 <!-- <div class="card_wrapper">
-                    <div id="card_a_1" class="front card_sprite">
-                        <div class="card_name_wrapper single_symbol">
-                            <span class="card_name">Alchemical Lab</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="card_wrapper">
-                    <div id="card_a_1" class="front card_sprite">
-                        <div class="card_name_wrapper single_symbol">
-                            <span class="card_name">Alchemical Lab</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="card_wrapper">
-                    <div id="card_a_1" class="front card_sprite">
-                        <div class="card_name_wrapper single_symbol">
-                            <span class="card_name">Alchemical Lab</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="card_wrapper">
-                    <div id="card_a_1" class="front card_sprite">
-                        <div class="card_name_wrapper single_symbol">
-                            <span class="card_name">Alchemical Lab</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="card_wrapper">
                     <div id="card_a_1" class="front card_sprite">
                         <div class="card_name_wrapper single_symbol">
                             <span class="card_name">Alchemical Lab</span>
@@ -102,7 +77,6 @@
         <div id="deck_b" class="market_row">
             <div id="drawpile_b" class="drawpile">
                 <div id="deck_b_back" class="back card_sprite"></div>
-                <!-- <h3>12</h3> -->
             </div>
             <div id="market_cards_b" class="dealtcards">
 
@@ -112,7 +86,6 @@
         <div id="deck_c" class="market_row">
             <div id="drawpile_c" class="drawpile">
                 <div id="deck_c_back" class="back card_sprite"></div>
-                <!-- <h3>11</h3> -->
             </div>
             <div id="market_cards_c" class="dealtcards">
 
@@ -167,60 +140,12 @@
             </div>
             <div id="player_loots" class="player_loot_box">
                 <div id="player_loot_box_{PLAYER_ID}" class="loot_wrapper">
-  
+
                 </div>
             </div>
             <div id="player_cards_{PLAYER_ID}" class="player_cards">
+                <!-- SAMPLE OF CARDS HTML -->
                 <!-- <div class="card_wrapper">
-                    <div id="card_a_1" class="card_sprite">
-                        <div class="card_name_wrapper single_symbol">
-                            <span class="card_name">Alchemical Lab</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="card_wrapper">
-                    <div id="card_a_1" class="card_sprite">
-                        <div class="card_name_wrapper single_symbol">
-                            <span class="card_name">Alchemical Lab</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="card_wrapper">
-                    <div id="card_a_1" class="card_sprite">
-                        <div class="card_name_wrapper single_symbol">
-                            <span class="card_name">Alchemical Lab</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="card_wrapper">
-                    <div id="card_a_1" class="card_sprite">
-                        <div class="card_name_wrapper single_symbol">
-                            <span class="card_name">Alchemical Lab</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="card_wrapper">
-                    <div id="card_a_1" class="card_sprite">
-                        <div class="card_name_wrapper single_symbol">
-                            <span class="card_name">Alchemical Lab</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="card_wrapper">
-                    <div id="card_a_1" class="card_sprite">
-                        <div class="card_name_wrapper single_symbol">
-                            <span class="card_name">Alchemical Lab</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="card_wrapper">
-                    <div id="card_a_1" class="card_sprite">
-                        <div class="card_name_wrapper single_symbol">
-                            <span class="card_name">Alchemical Lab</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="card_wrapper">
                     <div id="card_a_1" class="card_sprite">
                         <div class="card_name_wrapper single_symbol">
                             <span class="card_name">Alchemical Lab</span>
