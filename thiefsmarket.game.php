@@ -75,7 +75,7 @@ class ThiefsMarket extends Table
         $is_promo = false;
         
         $this->setGameStateInitialValue( "nbPlayers", $nb_players);
- 
+
         // Create players
         // Note: if you added some extra field on "player" table in the database (dbmodel.sql), you can initialize it there.
         $sql = "INSERT INTO player (player_id, player_color, player_canal, player_name, player_avatar, player_score) VALUES ";
@@ -99,8 +99,6 @@ class ThiefsMarket extends Table
         // (note: statistics used in this file must be defined in your stats.inc.php file)
         //self::initStat( 'table', 'table_teststat1', 0 );    // Init a table statistics
         //self::initStat( 'player', 'player_teststat1', 0 );  // Init a player statistics (for all players)
-
-        // TODO: setup the initial game situation here
 
         /*
          *  SETUP CARDS
@@ -355,10 +353,9 @@ class ThiefsMarket extends Table
                 $this->loots->moveCard($first_player['id'],'table');
             }
 			$newReturnedItems=$this->loots->getCardsInLocation('table',0);
-			       self::notifyAllPlayers( "lootReturnedToPool", clienttranslate( 'Loot Dice rolled' ), array(
-			'items' => $newReturnedItems, 
-			
-			'numDice'=>count($newReturnedItems)));
+			self::notifyAllPlayers( "lootReturnedToPool", clienttranslate( 'Loot Dice rolled' ), array(
+                'items' => $newReturnedItems, 
+                'numDice'=>count($newReturnedItems)));
 
 			
         }

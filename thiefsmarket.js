@@ -50,7 +50,6 @@ function (dojo, declare) {
 
             this.cardInfo       = {};
             this.deck           = {};
-            this.market         = {};
             this.diceState      = {};
 
             // https://codeburst.io/the-only-way-to-detect-touch-with-javascript-7791a3346685
@@ -288,7 +287,32 @@ function (dojo, declare) {
                 case 'playerMakePurchases':
 					dojo.query("#thiefmarket_game").removeClass('phase_1');
                     dojo.query("#thiefmarket_game").addClass('phase_2');;
-					if (this.isCurrentPlayerActive()) {		
+					if (this.isCurrentPlayerActive()) {
+                        console.log('Market: ');
+                        console.log(this.marketPile);
+
+                        var playerLoots = this.processPlayerLoot(this.playerLoot[args.active_player].getAllItems());
+                        console.log('Player Loot(s): ');
+                        console.log(playerLoots);
+
+                        for (var i in this.marketInfo) {
+                            var market = this.marketInfo[i].type;
+
+                            if (this.marketPile.hasOwnProperty(market)) {
+                                for (var card_generated_id in this.marketPile[market]) {
+                                    var id = this.marketPile[market][card_generated_id].type_arg;
+
+                                    var cardCost = this.getCardDetails(id, "cost");
+                                    if (this.isCardPurchaseable(playerLoots, cardCost)) {
+                                        dojo.query("#market_cards_a_item_" + card_generated_id).addClass('purchaseable');
+                                    }
+
+                                }
+                            }
+
+                            this.cards[market].setSelectionMode(1);
+                            dojo.connect( this.cards[market], 'onChangeSelection', this, 'onPlayerPurchaseCard' );
+                        }
 					}
             }
 			
@@ -341,7 +365,7 @@ function (dojo, declare) {
                     case 'playerSplitLoot':
                         this.addActionButton('confirm_take_loot', this.translatableTexts.confirmSelectionButton, 'onConfirmPlayerTakeLoot')
                         break;
-					 case 'playerMakePurchases':
+					case 'playerMakePurchases':
 						this.addActionButton('pass_market', _('Pass'), 'onPassMarket')
                         break;
 
@@ -628,6 +652,62 @@ function (dojo, declare) {
             return text;
         },
 
+        // clean the player loots for easier usage
+        processPlayerLoot: function(data) {
+            var result = {green: 0, white: 0, blue: 0, red: 0, gold_die: 0, infamy_die: 0, infamy: 0, gold: 0};
+
+            for (var loot in data) {
+                switch (data[loot].type) {
+                    case '0':
+                        result.green += 1;
+                        break;
+                    case '1':
+                        result.white += 1;
+                        break;
+                    case '2':
+                        result.blue += 1;
+                        break;
+                    case '3':
+                        result.red += 1;
+                        break;
+                    case '4':
+                        result.gold_die += 1;
+                        break;
+                    case '5':
+                        result.infamy_die += 1;
+                        break;
+                    case '6':
+                        result.infamy += 1;
+                        break;
+                    case '7':
+                        result.gold += 1;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return result;
+        },
+
+        // check if card is purchaseable by player
+        isCardPurchaseable: function(player_loot, card_cost) {
+            var result = false;
+            
+            var sum = 0;
+            for (var type in card_cost) {
+                if (card_cost[type] > 0) {
+                    sum += card_cost[type] - player_loot[type];
+                }
+            }
+            sum -= player_loot['gold']
+
+            if (sum <= 0) {
+                result = true;
+            }
+
+            return result;
+        },
+
         buyCard: function(player_id, type, id, location) {
             console.log("PLAYER ID:");
             console.log(player_id);
@@ -718,12 +798,27 @@ function (dojo, declare) {
             console.log(evt);
             var location = evt.slice(-1).toUpperCase();
             console.log(location);
+            var playerLoots = this.processPlayerLoot(this.playerLoot[this.getActivePlayerId()].getAllItems());
             var items;
+
             if (this.cards.hasOwnProperty(location)) {
                 items = this.cards[location].getSelectedItems();   
                 console.log(items);
+                
+                if (Object.keys(items).length > 0) {
+                    var cardCost = this.getCardDetails(items[0].type, "cost");
+                    console.log(cardCost);
+                    console.log(this.isCardPurchaseable(playerLoots, cardCost));
+                    if (this.isCardPurchaseable(playerLoots, cardCost)) {
+                        this.buyCard(this.player_id, items[0].type, items[0].id, location);
+                    } else {
+                        // can't afford
+                        // TODO: notify player that they can't afford the card
+                        this.showMessage( "You can't afford this card.","info");
+                        this.cards[location].unselectAll();
+                    }
+                }
             }
-            this.buyCard(this.player_id, items[0].type, items[0].id, location);
         },
 
         onPlayerSelectLoot: function (evt)
@@ -732,7 +827,6 @@ function (dojo, declare) {
             // dojo.stopEvent(evt);
             var selected_location = evt.split("_").slice(-1);
             console.log(selected_location);
-            var items;
             for (var location in this.tableLoot) {
                 if (location != selected_location) {
                     this.tableLoot[location].unselectAll();
@@ -741,14 +835,14 @@ function (dojo, declare) {
         },
 		onPassMarket:function()
 		{
-					this.ajaxcall("/thiefsmarket/thiefsmarket/PassMarket.html", {}, this, function( result ) {}, function( is_error ) {} );
+			this.ajaxcall("/thiefsmarket/thiefsmarket/PassMarket.html", {}, this, function( result ) {}, function( is_error ) {} );
 			
 		},
         onConfirmPlayerTakeLoot: function()
         {
 			var itemIDs=new Array();
             var items;
-			//Aggragate chosen items
+			// Aggregate chosen items
             for (var location in this.tableLoot) {
                 if (this.tableLoot[location].getSelectedItems().length > 0) {
                     items = this.tableLoot[location].getSelectedItems();
@@ -794,9 +888,9 @@ function (dojo, declare) {
             // Example 2: standard notification handling + tell the user interface to wait
             //            during 3 seconds after calling the method in order to let the players
             //            see what is happening in the game.
-             dojo.subscribe( 'lootTaken', this, "notif_lootTaken" );
-			 dojo.subscribe( 'lootReturnedToPool', this, "notif_lootReturned" );
-			 dojo.subscribe( 'startMarketPhase', this, "notif_marketPhase" );
+            dojo.subscribe( 'lootTaken', this, "notif_lootTaken" );
+			dojo.subscribe( 'lootReturnedToPool', this, "notif_lootReturned" );
+			dojo.subscribe( 'startMarketPhase', this, "notif_marketPhase" );
 
 
             // this.notifqueue.setSynchronous( 'cardPlayed', 3000 );
@@ -826,16 +920,16 @@ function (dojo, declare) {
 			//move the loot to the proper placement
 			for(i in notif.args.items)
 			{
-			  lootID=notif.args.items[i];
-			  var type;
-			  var location=notif.args.location;
-			  loot=this.tableLoot[notif.args.location].items;
-			  for(j in loot )
-			  { if (loot[j].id==lootID) {type=loot[j].type;}}
-			  from="loot_box_"+ location+"_item_"+lootID;
-				
-			  this.tableLoot[notif.args.player_id].addToStockWithId(type, lootID,from);
-			  this.tableLoot[location].removeFromStockById(lootID);
+                lootID=notif.args.items[i];
+                var type;
+                var location=notif.args.location;
+                loot=this.tableLoot[notif.args.location].items;
+                for(j in loot )
+                { if (loot[j].id==lootID) {type=loot[j].type;}}
+                from="loot_box_"+ location+"_item_"+lootID;
+                
+                this.tableLoot[notif.args.player_id].addToStockWithId(type, lootID,from);
+                this.tableLoot[location].removeFromStockById(lootID);
 			}
 		},
 		
@@ -880,5 +974,5 @@ function (dojo, declare) {
 			
 		}
 		
-   });             
+    });             
 });
